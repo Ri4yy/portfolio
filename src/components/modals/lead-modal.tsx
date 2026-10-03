@@ -305,20 +305,20 @@ export function LeadModal() {
               </div>
             ) : (
               /* Success Screen */
-              <div className="py-8 text-center space-y-3.5">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_25px_rgba(16,185,129,0.2)]">
-                  <CheckCircle2 className="w-6 h-6" />
+              <div className="py-8 sm:py-10 text-center flex flex-col items-center">
+                <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(16,185,129,0.25)] mb-6">
+                  <CheckCircle2 className="w-7 h-7" />
                 </div>
-                <div className="space-y-1">
-                  <h4 className="text-xl font-bold text-white">Заявка успешно отправлена!</h4>
-                  <p className="text-xs sm:text-sm text-zinc-400 max-w-sm mx-auto">
-                    Спасибо! Я изучу вводные и напишу вам в Telegram или на почту в течение 2–4 часов.
-                  </p>
-                </div>
-                <div className="pt-2">
+                <h4 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-3">
+                  Заявка успешно отправлена!
+                </h4>
+                <p className="text-xs sm:text-sm text-zinc-400 max-w-sm mx-auto leading-relaxed mb-7">
+                  Спасибо! Я изучу вводные и напишу вам в Telegram или на почту в течение 2–4 часов.
+                </p>
+                <div>
                   <button
                     onClick={handleResetAndClose}
-                    className="px-5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-zinc-300 text-xs font-mono uppercase tracking-wider transition-colors border border-white/[0.08]"
+                    className="px-6 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-zinc-300 hover:text-white text-xs font-mono uppercase tracking-wider transition-all border border-white/[0.08] hover:border-white/[0.15] cursor-pointer"
                   >
                     Вернуться к сайту
                   </button>

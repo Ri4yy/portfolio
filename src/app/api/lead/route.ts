@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
 
 // Escape HTML characters to prevent Telegram parse errors & injection
 function escapeHtml(str: string): string {
@@ -135,6 +136,32 @@ ${messageContent}
 📅 <b>Время:</b> <code>${timeMsk} (МСК)</code>
 🌐 <b>Клиент:</b> <code>${escapeHtml(ip)}</code> · ${escapeHtml(deviceSummary)}
 `.trim();
+
+    // 1. Save lead to Supabase database concurrently
+    let dbSaved = false;
+    try {
+      const { error: dbError } = await supabase.from("leads").insert({
+        name,
+        contact,
+        company: company || null,
+        message: message || null,
+        source,
+        page,
+        services,
+        ip,
+        device: deviceSummary,
+        status: "new",
+      });
+
+      if (dbError) {
+        console.error("⚠️ [SUPABASE LEADS INSERT ERROR]:", dbError);
+      } else {
+        dbSaved = true;
+        console.log("✅ [SUPABASE LEADS] Заявка успешно сохранена в БД!");
+      }
+    } catch (dbEx: any) {
+      console.error("⚠️ [SUPABASE LEADS EXCEPTION]:", dbEx);
+    }
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN?.trim();
     const chatId = process.env.TELEGRAM_CHAT_ID?.trim();

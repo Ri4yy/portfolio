@@ -147,7 +147,11 @@ export function FeaturedProjectsSection({ initialProjects = [] }: FeaturedProjec
 
                     <div>
                       <Link href={`/projects/${featured[1].slug}`} className="block group/title">
-                        <h3 className="text-xl font-bold text-white tracking-tight group-hover/title:text-sky-400 transition-colors">
+                        <h3 className={`text-xl font-bold text-white tracking-tight transition-colors ${
+                          featured[1].category === "Чат-боты и сервисы" || featured[1].accent === "#a855f7"
+                            ? "group-hover/title:text-purple-400"
+                            : "group-hover/title:text-sky-400"
+                        }`}>
                           {featured[1].title}
                         </h3>
                       </Link>
@@ -164,7 +168,11 @@ export function FeaturedProjectsSection({ initialProjects = [] }: FeaturedProjec
                           className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.05]"
                         >
                           <div className="text-[10px] text-zinc-500 font-mono truncate">{m.label}</div>
-                          <div className="text-sm sm:text-base font-bold text-sky-400 font-mono mt-0.5">{m.value}</div>
+                          <div className={`text-sm sm:text-base font-bold font-mono mt-0.5 ${
+                            featured[1].category === "Чат-боты и сервисы" || featured[1].accent === "#a855f7"
+                              ? "text-purple-400"
+                              : "text-sky-400"
+                          }`}>{m.value}</div>
                           <div className="text-[9px] text-zinc-400 truncate">{m.trend}</div>
                         </div>
                       ))}
@@ -197,7 +205,11 @@ export function FeaturedProjectsSection({ initialProjects = [] }: FeaturedProjec
                     </div>
                     <Link
                       href={`/projects/${featured[1].slug}`}
-                      className="flex items-center gap-1.5 text-xs font-semibold text-white group-hover:text-sky-400 transition-colors"
+                      className={`flex items-center gap-1.5 text-xs font-semibold text-white transition-colors ${
+                        featured[1].category === "Чат-боты и сервисы" || featured[1].accent === "#a855f7"
+                          ? "group-hover:text-purple-400"
+                          : "group-hover:text-sky-400"
+                      }`}
                     >
                       <span>Детали кейса</span>
                       <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

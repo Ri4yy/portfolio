@@ -375,12 +375,14 @@ export default function ContactPage() {
                     </div>
                   </form>
                 ) : (
-                  <div className="py-10 text-center space-y-3">
-                    <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(16,185,129,0.3)]">
-                      <Check className="w-6 h-6" />
+                  <div className="py-10 text-center flex flex-col items-center">
+                    <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(16,185,129,0.3)] mb-6">
+                      <Check className="w-7 h-7" />
                     </div>
-                    <h3 className="text-xl font-bold text-white">Бриф успешно отправлен!</h3>
-                    <p className="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto leading-relaxed">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-3">
+                      Бриф успешно отправлен!
+                    </h3>
+                    <p className="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto leading-relaxed mb-7">
                       Спасибо за обращение. Я изучу детали задачи и свяжусь с вами в Telegram или по Email в течение 2–4 часов.
                     </p>
                     <button
@@ -388,7 +390,7 @@ export default function ContactPage() {
                         setIsSuccess(false);
                         reset();
                       }}
-                      className="px-5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-zinc-300 text-xs font-mono uppercase tracking-wider transition-colors border border-white/[0.08]"
+                      className="px-6 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-zinc-300 hover:text-white text-xs font-mono uppercase tracking-wider transition-all border border-white/[0.08] hover:border-white/[0.15] cursor-pointer"
                     >
                       Заполнить еще одну заявку
                     </button>

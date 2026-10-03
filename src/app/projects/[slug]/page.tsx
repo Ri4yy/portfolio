@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import { ProjectCtaCard } from "@/components/sections/project-cta-card";
+import { WidgetIntegrationCta } from "@/components/sections/widget-integration-cta";
 import { PrefooterCta } from "@/components/sections/prefooter-cta";
 import { FadeIn, FadeInStagger, FadeInItem } from "@/components/ui/fade-in";
 
@@ -301,6 +302,13 @@ export default async function ProjectDetailPage({
                   </div>
                 </section>
               </FadeIn>
+
+              {/* 5. Autonomous Widget Integration Offer (if chat-bot project) */}
+              {(project.slug === "nexus-ai-chatbot-widget" || project.category === "Чат-боты и сервисы") && (
+                <FadeIn>
+                  <WidgetIntegrationCta />
+                </FadeIn>
+              )}
             </div>
 
             {/* Right 4 Cols: Tech Stack & Sidebar CTA */}
