@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import { supabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
   try {
@@ -52,18 +53,49 @@ export async function POST(req: NextRequest) {
       .slice(0, 40);
     const uniqueSuffix = Date.now().toString(36);
     const finalFilename = `${baseName || "project"}-${uniqueSuffix}${ext}`;
+    const storagePath = `projects/${finalFilename}`;
 
-    const uploadDir = path.join(process.cwd(), "public", "projects");
-    await mkdir(uploadDir, { recursive: true });
+    // 1. Upload to Supabase Storage (cloud CDN)
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("project-screenshots")
+      .upload(storagePath, buffer, {
+        contentType: file.type,
+        cacheControl: "31536000",
+        upsert: true,
+      });
 
-    const filePath = path.join(uploadDir, finalFilename);
-    await writeFile(filePath, buffer);
+    if (uploadError) {
+      console.error("[SUPABASE STORAGE UPLOAD ERROR]:", uploadError);
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Ошибка загрузки в Supabase Storage: " + uploadError.message,
+        },
+        { status: 500 }
+      );
+    }
 
-    const publicUrl = `/projects/${finalFilename}`;
+    // 2. Obtain permanent public CDN URL from Supabase
+    const {
+      data: { publicUrl },
+    } = supabase.storage
+      .from("project-screenshots")
+      .getPublicUrl(storagePath);
+
+    // 3. Local mirror copy (if filesystem allows, useful for local offline dev)
+    try {
+      const uploadDir = path.join(process.cwd(), "public", "projects");
+      await mkdir(uploadDir, { recursive: true });
+      const filePath = path.join(uploadDir, finalFilename);
+      await writeFile(filePath, buffer);
+    } catch (localWriteErr) {
+      // Ignored on read-only environments (e.g. Vercel)
+    }
 
     return NextResponse.json({
       success: true,
       url: publicUrl,
+      storagePath,
       filename: finalFilename,
     });
   } catch (err: any) {
