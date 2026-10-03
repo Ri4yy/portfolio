@@ -40,7 +40,7 @@ export function HeroSection() {
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-[11px] font-mono text-zinc-300 tracking-wide uppercase">
-              [ДОСТУПЕН ДЛЯ ПРОЕКТОВ] · RI4Y // АНТОН
+              [ДОСТУПЕН ДЛЯ ПРОЕКТОВ] · RI4Y
             </span>
           </motion.div>
 
@@ -92,7 +92,7 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* 4 Cards (First 2 kept, other 2 updated to Anton's stack) */}
+        {/* 4 Cards (First 2 kept, other 2 updated to ri4y's stack) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

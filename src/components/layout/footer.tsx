@@ -42,7 +42,7 @@ export function Footer() {
               <div className="w-6 h-6 rounded bg-white/10 flex items-center justify-center">
                 <Terminal className="w-3.5 h-3.5 text-emerald-400" />
               </div>
-              RI4Y // АНТОН · ВЕБ-РАЗРАБОТЧИК
+              RI4Y · ВЕБ-РАЗРАБОТЧИК
             </div>
             <p className="text-xs text-zinc-400 max-w-sm leading-relaxed">
               Разработка сайтов под ключ на 1С-Битрикс, WordPress и MODX, кастомных плагинов, модулей, чат-ботов и ускорение работы проектов с 2020 года.
@@ -109,7 +109,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-center sm:text-left">
-            <span>© 2020–2026 АНТОН (ri4y). Все права защищены.</span>
+            <span>© 2020–2026 ri4y. Все права защищены.</span>
             <span className="text-zinc-700 hidden sm:inline">·</span>
             <Link
               href="/privacy"

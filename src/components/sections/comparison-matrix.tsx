@@ -63,7 +63,7 @@ export function ComparisonMatrixSection() {
 
         {/* 2-Column Direct Comparison */}
         <FadeInStagger className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-6 sm:gap-8 items-stretch">
-          {/* 1. Anton (Highlighted Primary Option) */}
+          {/* 1. ri4y (Highlighted Primary Option) */}
           <FadeInItem className="h-full">
             <SpotlightCard className="h-full p-6 sm:p-8 rounded-2xl md:rounded-3xl bg-gradient-to-b from-[#14141d] to-[#0e0e15] border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.12)] relative ring-1 ring-emerald-500/30">
               <div className="flex flex-col justify-between h-full space-y-6">
@@ -75,7 +75,7 @@ export function ComparisonMatrixSection() {
                         <UserCheck className="w-5 h-5" />
                       </div>
                       <div>
-                        <h3 className="text-base font-bold text-white">Разработчик Антон</h3>
+                        <h3 className="text-base font-bold text-white">Разработчик ri4y</h3>
                         <div className="text-[11px] font-mono text-emerald-400">Прямой автор кода</div>
                       </div>
                     </div>

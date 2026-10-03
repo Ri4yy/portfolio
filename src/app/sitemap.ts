@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { PROJECTS } from "@/lib/projects-data";
+import { getProjects } from "@/lib/projects-data";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://ri4y.dev";
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -25,7 +25,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const projectRoutes: MetadataRoute.Sitemap = PROJECTS.map((project) => ({
+  const projects = await getProjects();
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly",

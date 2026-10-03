@@ -10,15 +10,15 @@ import { Toaster } from "sonner";
 export const metadata: Metadata = {
   metadataBase: new URL("https://ri4y.dev"),
   title: {
-    default: "ri4y (Антон) — Разработка сайтов под ключ, плагинов и модулей",
+    default: "ri4y — Разработка сайтов под ключ, плагинов и модулей",
     template: "%s | ri4y.dev",
   },
   description:
-    "Портфолио веб-разработчика ri4y (Антон). Разработка сайтов под ключ на 1С-Битрикс, WordPress и MODX Revolution, создание кастомных плагинов, интеграции по REST API, Telegram-боты и ускорение сайтов с 2020 года.",
+    "Портфолио веб-разработчика ri4y. Разработка сайтов под ключ на 1С-Битрикс, WordPress и MODX Revolution, создание кастомных плагинов, интеграции по REST API, Telegram-боты и ускорение сайтов с 2020 года.",
   keywords: [
     "ri4y",
     "ri4y dev",
-    "веб разработчик антон",
+    "веб разработчик ri4y",
     "создание сайтов под ключ",
     "разработка сайтов 1с-битрикс",
     "разработка интернет магазина битрикс",
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
     "telegram боты для бизнеса",
     "доработка сайтов на cms",
   ],
-  authors: [{ name: "Антон (ri4y)", url: "https://ri4y.dev" }],
-  creator: "Антон (ri4y)",
+  authors: [{ name: "ri4y", url: "https://ri4y.dev" }],
+  creator: "ri4y",
   publisher: "ri4y engineering",
   robots: {
     index: true,
@@ -53,13 +53,13 @@ export const metadata: Metadata = {
     locale: "ru_RU",
     url: "https://ri4y.dev",
     siteName: "ri4y.dev — Портфолио веб-разработчика",
-    title: "ri4y (Антон) — Разработка сайтов под ключ, плагинов и модулей",
+    title: "ri4y — Разработка сайтов под ключ, плагинов и модулей",
     description:
       "Создание современных сайтов и модулей для бизнеса: 1С-Битрикс, WordPress, MODX Revolution, REST API интеграции и ускорение до 90+ в Google PageSpeed.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ri4y (Антон) — Веб-разработчик сайтов, плагинов и модулей",
+    title: "ri4y — Веб-разработчик сайтов, плагинов и модулей",
     description:
       "Разработка сайтов под ключ на 1С-Битрикс, WordPress и MODX, кастомные плагины, чат-боты и оптимизация скорости.",
   },
@@ -81,8 +81,8 @@ const jsonLd = {
     {
       "@type": "Person",
       "@id": "https://ri4y.dev/#person",
-      name: "Антон (ri4y)",
-      alternateName: ["ri4y", "Антон"],
+      name: "ri4y",
+      alternateName: ["ri4y"],
       jobTitle: "Веб-разработчик / Fullstack Engineer",
       description:
         "Веб-разработчик с коммерческой практикой с 2020 года. Специализация: 1С-Битрикс, WordPress, MODX Revolution, кастомные модули, интеграции по API и Telegram-боты.",

@@ -1,3 +1,5 @@
+import { supabase } from "@/lib/supabase";
+
 export interface ProjectMetric {
   label: string;
   value: string;
@@ -10,7 +12,7 @@ export interface ProjectItem {
   slug: string;
   title: string;
   tagline: string;
-  category: "Интернет-магазины" | "Корпоративные сайты" | "Модули и плагины" | "Чат-боты и сервисы";
+  category: "Интернет-магазины" | "Корпоративные сайты" | "Модули и плагины" | "Чат-боты и сервисы" | string;
   client: string;
   year: string;
   duration: string;
@@ -18,7 +20,12 @@ export interface ProjectItem {
   team: string;
   featured: boolean;
   accent: string;
-  mockupType: "fintech" | "ai-kernel" | "luxury-3d" | "telemetry" | "design-system";
+  mockupType: "fintech" | "ai-kernel" | "luxury-3d" | "telemetry" | "design-system" | string;
+  imageUrl?: string;
+  galleryImages?: string[];
+  liveUrl?: string;
+  repoUrl?: string;
+  orderIndex?: number;
   metrics: ProjectMetric[];
   overview: string;
   challenge: string;
@@ -30,296 +37,13 @@ export interface ProjectItem {
   implementation: string[];
   results: string[];
   techStack: { category: string; items: string[] }[];
-  liveUrl?: string;
-  repoUrl?: string;
 }
 
-export const PROJECTS: ProjectItem[] = [
-  {
-    id: "01",
-    slug: "bitrix-ecommerce-store",
-    title: "Интернет-магазин оборудования на 1С-Битрикс",
-    tagline: "Разработка магазина под ключ с синхронизацией 1С:Предприятие, кастомным чекаутом и интеграцией СДЭК и эквайринга",
-    category: "Интернет-магазины",
-    client: "Производственно-торговая компания",
-    year: "2024",
-    duration: "1.5 месяца",
-    role: "Веб-разработчик",
-    team: "Разработчик (Антон), Дизайнер",
-    featured: true,
-    accent: "#10b981",
-    mockupType: "fintech",
-    metrics: [
-      { label: "Скорость загрузки", value: "0.7s", detail: "композитный режим Битрикс", trend: "PageSpeed 94" },
-      { label: "Товаров в каталоге", value: "24 000+", detail: "многоуровневые свойства и торговые предложения", trend: "1С Sync" },
-      { label: "Рост заказов через корзину", value: "+46%", detail: "упрощенный одностраничный чекаут", trend: "Конверсия" },
-      { label: "Отказоустойчивость", value: "100%", detail: "автоматическая выгрузка остатков и цен", trend: "Realtime" },
-    ],
-    overview:
-      "Разработка современного интернет-магазина на редакции 1С-Битрикс: Малый бизнес. Старый сайт работал медленно, не обновлял остатки вовремя и терял клиентов на этапе оформления заказа из-за сложной стандартной формы корзины.",
-    challenge:
-      "Требовалось настроить быструю двустороннюю интеграцию с 1С без зависания сервера при выгрузке 24 тысяч позиций, разработать кастомный одностраничный чекаут и ускорить работу каталога с умным фильтром.",
-    architecture: {
-      summary:
-        "Архитектура на базе 1С-Битрикс с кастомными компонентами на D7, умным кэшированием результатов выборки и асинхронным расчетом доставки через API СДЭК и Почты России.",
-      highlights: [
-        "Использование современного ORM D7 и кастомных компонентов для исключения лишних SQL-запросов",
-        "Композитный сайт и кэширование фасеточных индексов умного фильтра",
-        "Асинхронный одношаговый чекаут с динамическим расчетом стоимости доставки",
-        "Интеграция онлайн-оплаты через ЮKassa с фискализацией чеков по 54-ФЗ",
-      ],
-      diagramNodes: [
-        { name: "1C:Предприятие", type: "ERP", desc: "Двусторонний обмен заказами и остатками через CommerceML" },
-        { name: "Битрикс D7 Core", type: "CMS", desc: "Оптимизированное ядро и кастомные модули" },
-        { name: "СДЭК и ЮKassa API", type: "Интеграции", desc: "Авторасчет доставки и онлайн-эквайринг" },
-        { name: "Адаптивный UI", type: "Фронтенд", desc: "Pixel-perfect верстка, оптимизация под смартфоны" },
-      ],
-    },
-    implementation: [
-      "Разработал чистую адаптивную верстку всех страниц по макетам Figma.",
-      "Настроил и кастомизировал модуль интеграции с 1С:Предприятие с пакетной загрузкой фотографий и свойств.",
-      "Спроектировал и внедрил модуль быстрого оформления заказа в один шаг с автозаполнением адреса через DaData.",
-      "Подключил платежные шлюзы и модули курьерских служб.",
-    ],
-    results: [
-      "Время оформления заказа сократилось с 3.5 минут до 45 секунд.",
-      "Показатель Google PageSpeed вырос с 38 до 94 баллов на десктопе.",
-      "Полная автоматизация передачи заказов напрямую в учетную систему менеджеров.",
-    ],
-    techStack: [
-      { category: "CMS и Backend", items: ["1С-Битрикс (D7)", "PHP 8.2", "MySQL", "CommerceML", "1С"] },
-      { category: "Frontend", items: ["JavaScript", "HTML5", "CSS3 / Sass", "AJAX", "Swiper"] },
-      { category: "Интеграции", items: ["СДЭК API", "ЮKassa", "DaData", "Telegram Alerts"] },
-    ],
-    liveUrl: "https://shop-demo.internal",
-  },
-  {
-    id: "02",
-    slug: "modx-corporate-portal",
-    title: "Корпоративный сайт и каталог услуг на MODX Revolution",
-    tagline: "Быстрый сайт компании с каталогом спецтехники, калькулятором аренды и генерацией коммерческих предложений",
-    category: "Корпоративные сайты",
-    client: "Транспортно-логистическая группа",
-    year: "2024",
-    duration: "1 месяц",
-    role: "Веб-разработчик",
-    team: "Разработчик (Антон)",
-    featured: true,
-    accent: "#38bdf8",
-    mockupType: "telemetry",
-    metrics: [
-      { label: "Скорость загрузки LCP", value: "0.5s", detail: "мгновенный отклик на сервере", trend: "PageSpeed 98" },
-      { label: "Рост онлайн-заявок", value: "+65%", detail: "за счет интерактивного калькулятора", trend: "Лидогенерация" },
-      { label: "Удобство админки", value: "100%", detail: "кастомные TV-поля и MIGX для контентщиков", trend: "Простота" },
-      { label: "Отказы на смартфонах", value: "9%", detail: "быстрый легкий мобильный интерфейс", trend: "-28% отказов" },
-    ],
-    overview:
-      "Разработка под ключ корпоративного веб-сайта для аренды строительной техники и логистических услуг. Задача — создать чистый, быстрый и удобный для менеджеров ресурс на MODX Revolution.",
-    challenge:
-      "Сделать сайт максимально быстрым без тяжелых конструкторов, настроить удобный каталог техники с фильтрацией по характеристикам и интерактивный калькулятор стоимости аренды.",
-    architecture: {
-      summary:
-        "Сайт реализован на связке MODX Revolution + pdoTools + Fenom с полным кэшированием чанков, статическими ассетами и микроразметкой Schema.org.",
-      highlights: [
-        "Использование шаблонизатора Fenom для максимальной скорости компиляции страниц",
-        "Фильтрация техники mSearch2 без перезагрузки страниц",
-        "Интерактивный JS-калькулятор расчета смены и доставки техники",
-        "Дублирование всех заявок в Telegram-чат отдела продаж",
-      ],
-      diagramNodes: [
-        { name: "MODX Revo Core", type: "CMS", desc: "Быстрое ядро с кастомной структурой ресурсов" },
-        { name: "pdoTools / Fenom", type: "Движок", desc: "Высокоскоростная сборка шаблонов" },
-        { name: "mFilter2 AJAX", type: "Каталог", desc: "Мгновенная фильтрация по параметрам" },
-        { name: "Telegram Bot API", type: "Уведомления", desc: "Мгновенная отправка лидов менеджеру" },
-      ],
-    },
-    implementation: [
-      "Разработал адаптивную верстку и перенес все макеты в чистые чанки Fenom.",
-      "Настроил удобное заполнение каталога через TV-поля и MIGX таблицы.",
-      "Написал JS-калькулятор с валидацией введенных параметров и генерацией PDF-сметы.",
-      "Оптимизировал изображения в WebP, настроил ленивую загрузку и сжатие стилей/скриптов.",
-    ],
-    results: [
-      "Идеальные показатели скорости (зеленая зона Google PageSpeed 98/100).",
-      "Увеличение конверсии в звонок и заявку в 1.6 раза в первый же месяц после запуска.",
-      "Сотрудники клиента самостоятельно добавляют технику без обращения к разработчикам.",
-    ],
-    techStack: [
-      { category: "CMS и Шаблоны", items: ["MODX Revolution", "pdoTools", "Fenom", "MIGX", "mSearch2"] },
-      { category: "Frontend", items: ["JavaScript", "HTML5", "CSS3 / SCSS", "Tailwind CSS"] },
-      { category: "Интеграции", items: ["Telegram Bot API", "Яндекс.Метрика e-commerce", "SMTP"] },
-    ],
-    liveUrl: "https://modx-portal.internal",
-  },
-  {
-    id: "03",
-    slug: "wordpress-acf-custom-portal",
-    title: "Кастомный портал на WordPress с ACF Pro и интеграцией AmoCRM",
-    tagline: "Разработка сайта на WordPress без тяжелых билдеров с кастомной темой, гибкими блоками и передачей лидов в CRM",
-    category: "Корпоративные сайты",
-    client: "Юридическо-консалтинговая компания",
-    year: "2023",
-    duration: "3 недели",
-    role: "Веб-разработчик",
-    team: "Разработчик (Антон)",
-    featured: true,
-    accent: "#6366f1",
-    mockupType: "luxury-3d",
-    metrics: [
-      { label: "Оценка Google PageSpeed", value: "96+", detail: "без использования Elementor / Gutenberg", trend: "Оптимизация" },
-      { label: "Доставка лидов в CRM", value: "100%", detail: "AmoCRM Webhook с защитой от спама", trend: "0 потерь" },
-      { label: "Срок запуска", value: "21 день", detail: "от получения макетов до релиза на хостинге", trend: "Точно в срок" },
-      { label: "Блоков в админке", value: "18+", detail: "гибкий конструктор на базе Flexible Content", trend: "ACF Pro" },
-    ],
-    overview:
-      "Создание сайта компании с каталогом услуг, базой знаний и онлайн-записью на консультации. Клиент жаловался на прошлый опыт с Elementor (сайт тормозил и ломался при обновлениях), требовалась чистая кастомная тема.",
-    challenge:
-      "Создать удобную систему блоков в админ-панели (Flexible Content), чтобы маркетологи могли собирать новые посадочные страницы без кода, сохранив максимальную скорость сайта.",
-    architecture: {
-      summary:
-        "Кастомная тема WordPress без сторонних тяжелых плагинов. Логика полей на Advanced Custom Fields Pro, валидация форм на клиенте и сервере, прямая отправка заявок в AmoCRM по REST API.",
-      highlights: [
-        "Zero-Bloat WordPress: отключены лишние скрипты, emoji, wp-embed и тяжелые стили",
-        "Модульная система блоков ACF Flexible Content для сборки любых страниц",
-        "Прямая интеграция с AmoCRM (создание сделки, контакта, прикрепление UTM-меток)",
-        "Защита форм от спама через honeypot без раздражающих пользователя капч",
-      ],
-      diagramNodes: [
-        { name: "WordPress Custom Theme", type: "Ядро", desc: "Легковесная тема без билдеров" },
-        { name: "ACF Pro Flexible", type: "Контент", desc: "Удобный конструктор страниц для контентщика" },
-        { name: "REST API AmoCRM", type: "CRM", desc: "Создание сделок с авто-распределением менеджерам" },
-        { name: "Кэширование Nginx/Redis", type: "Сервер", desc: "Время отклика TTFB менее 120мс" },
-      ],
-    },
-    implementation: [
-      "Сверстал адаптивные макеты с упором на чистый семантический HTML и доступность.",
-      "Разработал кастомную тему WordPress с 18 модульными блоками в ACF Pro.",
-      "Написал PHP-обработчик форм с автоматической отправкой сделки в AmoCRM и уведомлением в Telegram.",
-      "Настроил хостинг, почтовые протоколы SPF/DKIM и базовую SEO-оптимизацию.",
-    ],
-    results: [
-      "Сайт загружается мгновенно на любых мобильных устройствах.",
-      "Отдел маркетинга самостоятельно собирает новые лендинги за 20 минут.",
-      "Все входящие заявки с UTM-метками автоматически попадают в нужную воронку CRM.",
-    ],
-    techStack: [
-      { category: "CMS и Backend", items: ["WordPress", "ACF Pro", "PHP 8.1", "MySQL"] },
-      { category: "Frontend", items: ["HTML5", "CSS3 / Sass", "Vanilla JS", "Gulp / Webpack"] },
-      { category: "Интеграции", items: ["AmoCRM REST API", "Telegram Bot", "Яндекс.Метрика"] },
-    ],
-    liveUrl: "https://wp-legal.internal",
-  },
-  {
-    id: "04",
-    slug: "telegram-bot-lead-automation",
-    title: "Telegram-бот приема заказов и сервис доработки сайта",
-    tagline: "Разработка чат-бота для интернет-магазина с каталогом, корзиной и синхронизацией с базой данных сайта",
-    category: "Чат-боты и сервисы",
-    client: "Сервисная компания",
-    year: "2024",
-    duration: "2 недели",
-    role: "Веб-разработчик",
-    team: "Разработчик (Антон)",
-    featured: true,
-    accent: "#a855f7",
-    mockupType: "ai-kernel",
-    metrics: [
-      { label: "Время оформления", value: "30 сек", detail: "прямо внутри мессенджера Telegram", trend: "Telegram WebApp" },
-      { label: "Синхронизация", value: "Realtime", detail: "единая база данных с основным сайтом", trend: "MySQL / REST" },
-      { label: "Обработано заказов", value: "3 800+", detail: "без единого сбоя и зависания очереди", trend: "Надежность" },
-      { label: "Экономия времени операторов", value: "3 ч/день", detail: "автоматические ответы на типовые вопросы", trend: "Автоматизация" },
-    ],
-    overview:
-      "Разработка Telegram-бота для быстрого заказа услуг и консультаций с интеграцией в существующий сайт клиента. Пользователи могут выбрать услугу, указать контакты и прикрепить фото задачи прямо в чате.",
-    challenge:
-      "Связать логику Telegram-бота с базой данных сайта, чтобы менеджеры видели заказы из бота и сайта в одной панели управления.",
-    architecture: {
-      summary:
-        "Чат-бот на Node.js / PHP с обработкой входящих событий через Webhook, интеграцией с базой данных MySQL и уведомлениями в служебный чат поддержки.",
-      highlights: [
-        "Интуитивное пошаговое меню с Inline-кнопками и поддержкой Telegram WebApp",
-        "Двусторонняя синхронизация с базой данных сайта через REST API",
-        "Мгновенная отправка данных о новом клиенте дежурному менеджеру",
-      ],
-      diagramNodes: [
-        { name: "Telegram Bot API", type: "Вход", desc: "Прием сообщений и команд пользователя" },
-        { name: "Node.js / PHP Backend", type: "Логика", desc: "Обработка сценариев и пошагового диалога" },
-        { name: "MySQL DB сайта", type: "База данных", desc: "Синхронизация каталога и клиентов" },
-      ],
-    },
-    implementation: [
-      "Разработал логику ветвления диалогов и обработку пользовательского ввода.",
-      "Настроил отправку фото и файлов с сохранением в файловую структуру сайта.",
-      "Подключил оповещения для менеджеров с кнопками «Взять в работу» и «Отклонить».",
-    ],
-    results: [
-      "Клиент получил дополнительный быстрый канал продаж через Telegram.",
-      "Сократилось время реакции на входящие обращения с 40 минут до 2 минут.",
-    ],
-    techStack: [
-      { category: "Бот и Сервер", items: ["Telegram Bot API", "Node.js", "PHP", "MySQL"] },
-      { category: "Инструменты", items: ["Webhooks", "REST API", "Docker", "PM2"] },
-    ],
-    liveUrl: "https://t.me/demo_service_bot",
-  },
-  {
-    id: "05",
-    slug: "site-optimization-pagespeed",
-    title: "Комплексная оптимизация и доработка крупного каталога",
-    tagline: "Ускорение загрузки сайта с 32 до 95 баллов в Google PageSpeed, рефакторинг кода и устранение чужих ошибок",
-    category: "Модули и плагины",
-    client: "Интернет-портал товаров для дома",
-    year: "2023",
-    duration: "2 недели",
-    role: "Веб-разработчик",
-    team: "Разработчик (Антон)",
-    featured: false,
-    accent: "#f59e0b",
-    mockupType: "design-system",
-    metrics: [
-      { label: "PageSpeed Mobile", value: "92 / 100", detail: "было 28 баллов до оптимизации", trend: "+64 балла" },
-      { label: "PageSpeed Desktop", value: "98 / 100", detail: "было 44 балла", trend: "+54 балла" },
-      { label: "Время LCP", value: "0.8s", detail: "сокращение с 4.6 секунд", trend: "-82% времени" },
-      { label: "Вес страницы", value: "1.1MB", detail: "было 6.4MB за счет оптимизации ассетов", trend: "-83% веса" },
-    ],
-    overview:
-      "Проект по аудиту, оптимизации скорости и доработке существующего сайта. Сайт долго открывался на смартфонах, падал в позициях поисковиков из-за низких показателей Core Web Vitals и содержал массу ошибок в консоли.",
-    challenge:
-      "Ускорить сайт без переписывания всего проекта с нуля, оптимизировать тяжелые скрипты, навести порядок в стилях и настроить корректное сжатие изображений.",
-    architecture: {
-      summary:
-        "Аудит и рефакторинг клиентского и серверного кода: оптимизация SQL-запросов, внедрение WebP/AVIF, удаление неиспользуемого CSS/JS и настройка серверного кэширования.",
-      highlights: [
-        "Конвертация всех картинок каталога в формат WebP с отдачей через picture",
-        "Асинхронная отложенная загрузка тяжелых аналитических счетчиков и виджетов",
-        "Инлайн критического CSS и минификация всех скриптов",
-        "Настройка правильных заголовков кэширования Cache-Control на Nginx",
-      ],
-      diagramNodes: [
-        { name: "Исходный сайт", type: "Аудит", desc: "Поиск узких мест и тяжелых библиотек" },
-        { name: "Рефакторинг кода", type: "Оптимизация", desc: "Удаление лишнего JS, инлайн Critical CSS" },
-        { name: "WebP конвертер", type: "Медиа", desc: "Сжатие картинок без потери качества" },
-        { name: "Зеленая зона PageSpeed", type: "Результат", desc: "Мгновенное открытие на мобильных" },
-      ],
-    },
-    implementation: [
-      "Провел детальный технический аудит производительности и ошибок в консоли.",
-      "Переписал неэффективные участки скриптов, удалил дублирующиеся библиотеки jQuery.",
-      "Настроил автоматическую генерацию WebP копий для всех загружаемых фото.",
-      "Настроил серверную компрессию Gzip / Brotli и кэширование статики.",
-    ],
-    results: [
-      "Сайт вышел в зеленую зону Google PageSpeed на мобильных и десктопах.",
-      "Отказы пользователей по данным аналитики снизились на 34%.",
-      "Рост органического поискового трафика после улучшения Core Web Vitals.",
-    ],
-    techStack: [
-      { category: "Инструменты оптимизации", items: ["Google Lighthouse", "WebP / AVIF", "Nginx", "Brotli"] },
-      { category: "Код", items: ["PHP", "JavaScript", "SQL", "CSS3"] },
-    ],
-    liveUrl: "https://optimized-portal.internal",
-  },
-];
+/**
+ * Все проекты загружаются динамически из базы данных Supabase.
+ * Статический массив в коде больше не используется.
+ */
+export const PROJECTS: ProjectItem[] = [];
 
 export const CLIENT_TESTIMONIALS = [
   {
@@ -327,27 +51,27 @@ export const CLIENT_TESTIMONIALS = [
     author: "Сергей Васильев",
     role: "Руководитель интернет-магазина",
     avatar: "СВ",
-    text: "Антон отлично настроил интеграцию Битрикса с нашей 1С и полностью переделал корзину. Заказы больше не теряются, оформление стало в разы быстрее, а сайт перестал зависать при синхронизации.",
-    project: "Интернет-магазин на 1С-Битрикс",
-    impact: "+46% заказов через корзину",
+    text: "ri4y разработал полностью кастомный шаблон на Битриксе и одношаговый чекаут. Заказы больше не теряются, оформление стало в разы быстрее, а покупатели отмечают удобство корзины.",
+    project: "Интернет-магазин «Яркая Птица»",
+    impact: "+41% заказов через корзину",
   },
   {
     id: "2",
     author: "Михаил Григорьев",
-    role: "Директор транспортной компании",
+    role: "Руководитель дилерского направления",
     avatar: "МГ",
-    text: "Нужен был быстрый сайт без лишней сложности. Антон сделал все на MODX точно по макетам и в срок. Отдельное спасибо за калькулятор стоимости аренды — клиенты сразу считают смену и оставляют заявку.",
-    project: "Корпоративный портал на MODX",
-    impact: "PageSpeed 98/100 и рост заявок",
+    text: "Нужен был строгий и быстрый каталог спецтехники с подробными техническими спецификациями машин. ri4y сдал работу точно в срок. Заказчикам очень удобно сравнивать модели и запрашивать коммерческие предложения.",
+    project: "Каталог спецтехники «Завод Агромаш»",
+    impact: "PageSpeed 95/100 и рост заявок +52%",
   },
   {
     id: "3",
     author: "Анна Кравцова",
-    role: "Маркетолог агентства",
+    role: "Директор по развитию ВЭД",
     avatar: "АК",
-    text: "Перевели сайт с тормозящего конструктора на чистую тему WordPress с ACF. Теперь страницы открываются моментально, а мы сами спокойно создаем любые страницы из готовых блоков. Рекомендую как надежного специалиста.",
-    project: "Сайт на WordPress с ACF Pro",
-    impact: "Запуск за 3 недели без багов",
+    text: "Перевели сайт на чистую тему WordPress с ACF. Теперь международный каталог открывается моментально, а мы сами спокойно добавляем новые позиции сырья и спецификаций без программистов.",
+    project: "B2B каталог «IVEKTA»",
+    impact: "PageSpeed 99/100 и прямой экспорт",
   },
 ];
 
@@ -412,3 +136,128 @@ export const CORE_PRINCIPLES = [
     description: "Идеальное отображение и удобное использование на смартфонах, планшетах, ноутбуках и мониторах.",
   },
 ];
+
+export function mapSupabaseProject(row: any): ProjectItem {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    tagline: row.tagline,
+    category: row.category,
+    client: row.client,
+    year: row.year,
+    duration: row.duration,
+    role: row.role,
+    team: row.team,
+    featured: Boolean(row.featured),
+    accent: row.accent || "#10b981",
+    mockupType: row.mockup_type || "fintech",
+    imageUrl: row.image_url || undefined,
+    galleryImages: Array.isArray(row.gallery_images) && row.gallery_images.length > 0
+      ? row.gallery_images
+      : (row.image_url ? [row.image_url] : []),
+    liveUrl: row.live_url || undefined,
+    repoUrl: row.repo_url || undefined,
+    orderIndex: row.order_index ?? 0,
+    metrics: Array.isArray(row.metrics) ? row.metrics : [],
+    overview: row.overview || "",
+    challenge: row.challenge || "",
+    architecture: row.architecture || { summary: "", highlights: [], diagramNodes: [] },
+    implementation: Array.isArray(row.implementation) ? row.implementation : [],
+    results: Array.isArray(row.results) ? row.results : [],
+    techStack: Array.isArray(row.tech_stack) ? row.tech_stack : [],
+  };
+}
+
+/**
+ * Получить все проекты напрямую из Supabase
+ */
+export async function getProjects(): Promise<ProjectItem[]> {
+  try {
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .order("order_index", { ascending: true });
+
+    if (error) {
+      console.error("Supabase fetch projects error:", error.message);
+      return [];
+    }
+
+    if (data && data.length > 0) {
+      return data.map(mapSupabaseProject);
+    }
+  } catch (err) {
+    console.error("Supabase query exception:", err);
+  }
+
+  return [];
+}
+
+/**
+ * Получить избранные проекты для главной страницы напрямую из Supabase
+ */
+export async function getFeaturedProjects(): Promise<ProjectItem[]> {
+  try {
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("featured", true)
+      .order("order_index", { ascending: true });
+
+    if (!error && data && data.length > 0) {
+      return data.map(mapSupabaseProject);
+    }
+  } catch (err) {
+    console.error("Supabase query exception for featured:", err);
+  }
+
+  const all = await getProjects();
+  return all.slice(0, 4);
+}
+
+/**
+ * Получить детальную информацию о проекте по slug напрямую из Supabase
+ */
+export async function getProjectBySlug(slug: string): Promise<ProjectItem | null> {
+  try {
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("slug", slug)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Supabase fetch project by slug error:", error.message);
+      return null;
+    }
+
+    if (data) {
+      return mapSupabaseProject(data);
+    }
+  } catch (err) {
+    console.error("Supabase query exception for project slug:", err);
+  }
+
+  return null;
+}
+
+/**
+ * Получить отзывы клиентов из Supabase
+ */
+export async function getTestimonials() {
+  try {
+    const { data, error } = await supabase
+      .from("testimonials")
+      .select("*")
+      .order("order_index", { ascending: true });
+
+    if (!error && data && data.length > 0) {
+      return data;
+    }
+  } catch (err) {
+    console.error("Supabase query exception for testimonials:", err);
+  }
+
+  return CLIENT_TESTIMONIALS;
+}

@@ -64,7 +64,7 @@ export function Preloader() {
               className="text-center space-y-2"
             >
               <div className="text-3xl sm:text-5xl font-bold tracking-tight font-sans text-white">
-                RI4Y <span className="text-zinc-400">// АНТОН</span>
+                RI4Y <span className="text-zinc-400">// DEV</span>
               </div>
               <p className="text-xs text-zinc-400 tracking-widest uppercase">
                 Сайты под ключ · Модули и плагины · Оптимизация

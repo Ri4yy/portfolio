@@ -1,10 +1,10 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { PROJECTS } from "@/lib/projects-data";
+import { getProjects, getProjectBySlug } from "@/lib/projects-data";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { ProjectMockup } from "@/components/ui/project-mockup";
+import { ProjectGallery } from "@/components/ui/project-gallery";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -23,8 +23,9 @@ import { ProjectCtaCard } from "@/components/sections/project-cta-card";
 import { PrefooterCta } from "@/components/sections/prefooter-cta";
 import { FadeIn, FadeInStagger, FadeInItem } from "@/components/ui/fade-in";
 
-export function generateStaticParams() {
-  return PROJECTS.map((project) => ({
+export async function generateStaticParams() {
+  const projects = await getProjects();
+  return projects.map((project) => ({
     slug: project.slug,
   }));
 }
@@ -35,7 +36,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = PROJECTS.find((p) => p.slug === slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     return {
@@ -74,7 +75,7 @@ export default async function ProjectDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = PROJECTS.find((p) => p.slug === slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -164,9 +165,21 @@ export default async function ProjectDetailPage({
             ))}
           </FadeInStagger>
 
-          {/* Large Hero Viewport Mockup */}
-          <FadeIn className="w-full h-80 sm:h-[460px] mb-16 rounded-2xl md:rounded-3xl overflow-hidden border border-white/[0.1] shadow-2xl">
-            <ProjectMockup type={project.mockupType} accent={project.accent} />
+          {/* Interactive Screenshot Slider, Mockup & Lightbox */}
+          <FadeIn className="w-full mb-16">
+            <ProjectGallery
+              images={
+                project.galleryImages && project.galleryImages.length > 0
+                  ? project.galleryImages
+                  : project.imageUrl
+                  ? [project.imageUrl]
+                  : []
+              }
+              title={project.title}
+              liveUrl={project.liveUrl}
+              slug={project.slug}
+              accent={project.accent}
+            />
           </FadeIn>
 
           {/* Deep-Dive Case Study Content: Problem -> Architecture -> Decisions -> Results */}

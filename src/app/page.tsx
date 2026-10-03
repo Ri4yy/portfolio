@@ -11,8 +11,11 @@ import { ProjectGuaranteesSection } from "@/components/sections/project-guarante
 import { ExperienceTimelineSection } from "@/components/sections/experience-timeline";
 import { FaqSection } from "@/components/sections/faq-section";
 import { PrefooterCta } from "@/components/sections/prefooter-cta";
+import { getFeaturedProjects } from "@/lib/projects-data";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const featuredProjects = await getFeaturedProjects();
+
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-zinc-100 flex flex-col selection:bg-white/20 selection:text-white">
       <Navbar />
@@ -25,7 +28,7 @@ export default function HomePage() {
         <CapabilitiesBento />
 
         {/* 3. Featured Commercial Projects Showcase */}
-        <FeaturedProjectsSection />
+        <FeaturedProjectsSection initialProjects={featuredProjects} />
 
         {/* 4. Services & Transparent Pricing Floor */}
         <ServicesPricingSection />

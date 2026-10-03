@@ -88,7 +88,7 @@ export function TerminalWidget() {
 
       {/* Terminal Prompt Line */}
       <div className="flex items-center gap-2 text-zinc-300">
-        <span className="text-emerald-400 font-semibold">~/anton-dev</span>
+        <span className="text-emerald-400 font-semibold">~/ri4y-dev</span>
         <span className="text-zinc-400">$</span>
         <span className="text-zinc-100">{displayedCmd}</span>
         {isTyping && <span className="w-1.5 h-3.5 bg-emerald-400 animate-pulse" />}

@@ -165,7 +165,7 @@ export function LeadModal() {
                 <div className="space-y-1 mb-5">
                   <div className="flex items-center gap-2 font-mono text-[11px] text-emerald-400 uppercase tracking-wider">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    [ОБСУДИТЬ ЗАДАЧУ] · АНТОН
+                    [ОБСУДИТЬ ЗАДАЧУ] · RI4Y
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
                     Обсудить разработку или доработку
